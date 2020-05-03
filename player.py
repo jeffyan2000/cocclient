@@ -1,9 +1,12 @@
 from config import *
 
-class Player():
-    def __init__(self, id):
-        self.id = id
+class Player:
+    def __init__(self):
         self.pos = [0, 0]
+
+    def set_pos(self, pos):
+        self.pos[0] = pos[0]
+        self.pos[1] = pos[1]
 
 class EventHandler():
     def handle_event(self, event):

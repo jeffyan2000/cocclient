@@ -1,4 +1,5 @@
-import pygame, sys
+import pygame, sys, threading
+from threading import Thread
 
 pygame.init()
 
@@ -23,11 +24,6 @@ UDP_IP = "localhost"
 message = "Hello udp"
 sock_send = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock_send.sendto(bytes(message, "utf-8"), (UDP_IP, UDP_PORT_SEND))
-
-#udp receiver socket
-sock_receive = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-sock_receive.bind((UDP_IP, UDP_PORT_RECEIVE))
-print("udp listening")
 
 
 sio = socketio.Client()
