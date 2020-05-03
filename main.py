@@ -1,27 +1,7 @@
-import socket
-import socketio
+from player import*
 
-#udp receiving port
-UDP_PORT_RECEIVE = 5005
-#udp sending port
-UDP_PORT_SEND = 41234
-#tcp sending port
-TCP_PORT_SEND = 5006
-#destination IP
-UDP_IP = "localhost"
+evt = EventHandler()
 
-#udp sender socket
-message = "Hello udp"
-sock_send = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-sock_send.sendto(bytes(message, "utf-8"), (UDP_IP, UDP_PORT_SEND))
-
-#udp receiver socket
-sock_receive = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-sock_receive.bind((UDP_IP, UDP_PORT_RECEIVE))
-print("udp listening")
-
-
-sio = socketio.Client()
 @sio.event
 def connect():
     print('connection established')
@@ -37,8 +17,12 @@ def disconnect():
     print('disconnected from server')
 
 sio.connect('http://localhost:{}'.format(TCP_PORT_SEND))
-sio.wait()
 
 while True:
-    data, addr = sock_receive.recvfrom(1024) # buffer size is 1024 bytes
-    print(data.decode("utf-8"))
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            sio.disconnect()
+            pygame.quit()
+            sys.exit()
+        evt.handle_event(event)
+    clock.tick(20)
