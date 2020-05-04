@@ -1,6 +1,9 @@
 from player import*
+from room import *
 
 evt = EventHandler()
+
+room = Room()
 
 @sio.event
 def connect():

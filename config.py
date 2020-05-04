@@ -1,4 +1,4 @@
-import pygame, sys, threading
+import pygame, sys, threading, os
 from threading import Thread
 
 pygame.init()
@@ -27,3 +27,15 @@ sock_send.sendto(bytes(message, "utf-8"), (UDP_IP, UDP_PORT_SEND))
 
 
 sio = socketio.Client()
+
+def load(n):
+    return pygame.image.load(os.path.join("lib", "texture") + n + ".png").convert_alpha()
+
+texture_names = ["default"]
+
+texture_lib = {}
+for name in texture_names:
+    texture_lib[name] = load(name)
+def add_left(names):
+    for name in names:
+        texture_lib[name+"_left"] = pygame.transform.flip(texture_lib[name], True, False)
