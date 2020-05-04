@@ -1,4 +1,4 @@
-import pygame, sys, threading, os
+import pygame, sys, threading, os, random, time
 from threading import Thread
 
 pygame.init()
@@ -12,7 +12,7 @@ import socket
 import socketio
 
 #udp receiving port
-UDP_PORT_RECEIVE = 5005
+UDP_PORT_RECEIVE = random.randint(5007, 6000)
 #udp sending port
 UDP_PORT_SEND = 41234
 #tcp sending port

@@ -8,6 +8,7 @@ room = Room()
 def connect():
     print('connection established')
     sio.emit('info', "Hello tcp")
+    sio.emit('port', UDP_PORT_RECEIVE)
 
 @sio.event
 def my_message(data):
@@ -31,7 +32,7 @@ class sock_rec_syn_class(Thread):
         # udp receiver socket
         sock_receive = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         sock_receive.bind((UDP_IP, UDP_PORT_RECEIVE))
-        print("udp listening")
+        print("udp listening at " + str(UDP_PORT_RECEIVE))
         while not self.dead:
             data, addr = sock_receive.recvfrom(1024)
             room.update(data.decode('ascii'))

@@ -9,14 +9,15 @@ class Room:
             player.draw()
 
     def update(self, data):
-        data = data.split('@')
-        while(len(self.players) < len(data) - 1):
-            self.players.append(Player())
-        while (len(self.players) > len(data) - 1):
-            self.players.pop()
-        for i in range(len(data)):
-            if data[i]:
-                temp = data[i].split('*')
-                self.players[i].set_pos((temp[0], temp[1]))
-                self.players[i].state = int(temp[2])
+        if(data[:3] == "000"):
+            data = data[3:].split('@')
+            while(len(self.players) < len(data) - 1):
+                self.players.append(Player())
+            while (len(self.players) > len(data) - 1):
+                self.players.pop()
+            for i in range(len(data)):
+                if data[i]:
+                    temp = data[i].split('*')
+                    self.players[i].set_pos((temp[0], temp[1]))
+                    self.players[i].state = int(temp[2])
 
