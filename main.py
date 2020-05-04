@@ -1,4 +1,3 @@
-from player import*
 from room import *
 
 evt = EventHandler()
@@ -35,7 +34,7 @@ class sock_rec_syn_class(Thread):
         print("udp listening")
         while not self.dead:
             data, addr = sock_receive.recvfrom(1024)
-            print("Message: " + data.decode('ascii'))
+            room.update(data.decode('ascii'))
         sock_receive.close()
 
     def stop(self):
@@ -52,4 +51,8 @@ while True:
             pygame.quit()
             sys.exit()
         evt.handle_event(event)
-    clock.tick(20)
+
+    screen.fill(-1)
+    room.draw()
+    pygame.display.flip()
+    clock.tick(40)

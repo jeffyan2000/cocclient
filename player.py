@@ -12,11 +12,11 @@ class Player:
                       for y in range(self.frames[1])]
 
     def set_pos(self, pos):
-        self.pos[0] = pos[0]
-        self.pos[1] = pos[1]
+        self.pos[0] = int(pos[0])
+        self.pos[1] = int(pos[1])
 
     def draw(self):
-        screen.blit(texture_lib[self.texture], (0, 0), self.rects[self.stat])
+        screen.blit(texture_lib[self.texture], self.pos,  self.rects[self.stat])
 
 class EventHandler():
     def handle_event(self, event):
