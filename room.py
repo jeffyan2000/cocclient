@@ -10,10 +10,13 @@ class Room:
 
     def update(self, data):
         data = data.split('@')
+        while(len(self.players) < len(data) - 1):
+            self.players.append(Player())
+        while (len(self.players) > len(data) - 1):
+            self.players.pop()
         for i in range(len(data)):
             if data[i]:
-                if i >= len(self.players):
-                    self.players.append(Player())
-                temp = data[i].split('-')
+                temp = data[i].split('*')
                 self.players[i].set_pos((temp[0], temp[1]))
+                self.players[i].state = int(temp[2])
 
