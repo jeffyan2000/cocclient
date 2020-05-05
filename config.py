@@ -12,19 +12,18 @@ import socket
 import socketio
 
 #udp receiving port
-UDP_PORT_RECEIVE = random.randint(5007, 6000)
+UDP_PORT_RECEIVE = random.randint(7000, 8000)
 #udp sending port
-UDP_PORT_SEND = 41234
+UDP_PORT_SEND = 6002
 #tcp sending port
-TCP_PORT_SEND = 5006
-#destination IP
-UDP_IP = "localhost"
+TCP_PORT_SEND = 6001
+#destination IP vps197548.vps.ovh.ca
+HOST_IP = "vps197548.vps.ovh.ca"
 
 #udp sender socket
-message = "Hello udp"
-sock_send = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-sock_send.sendto(bytes(message, "utf-8"), (UDP_IP, UDP_PORT_SEND))
-
+# udp receiver socket
+sock_receive = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+sock_receive.bind(("0.0.0.0", UDP_PORT_RECEIVE))
 
 sio = socketio.Client()
 

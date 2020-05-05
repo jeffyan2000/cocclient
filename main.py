@@ -11,15 +11,14 @@ def connect():
     sio.emit('port', UDP_PORT_RECEIVE)
 
 @sio.event
-def my_message(data):
+def message(data):
     print('message received with ', data)
-    sio.emit('my response', {'response': 'my response'})
 
 @sio.event
 def disconnect():
     print('disconnected from server')
 
-sio.connect('http://localhost:{}'.format(TCP_PORT_SEND))
+sio.connect('http://{}:{}'.format(HOST_IP, TCP_PORT_SEND))
 
 class sock_rec_syn_class(Thread):
     def __init__(self):
@@ -29,14 +28,11 @@ class sock_rec_syn_class(Thread):
         self.dead = False
 
     def run(self):
-        # udp receiver socket
-        sock_receive = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        sock_receive.bind((UDP_IP, UDP_PORT_RECEIVE))
         print("udp listening at " + str(UDP_PORT_RECEIVE))
+        sock_receive.sendto(bytes("Hello udp", "utf-8"), (HOST_IP, UDP_PORT_SEND))
         while not self.dead:
             data, addr = sock_receive.recvfrom(1024)
             room.update(data.decode('ascii'))
-        sock_receive.close()
 
     def stop(self):
         self.dead = True
@@ -48,7 +44,7 @@ while True:
         if event.type == pygame.QUIT:
             sock_rec_syn_thread.stop()
             sio.disconnect()
-            sock_send.close()
+            sock_receive.close()
             pygame.quit()
             sys.exit()
         evt.handle_event(event)
