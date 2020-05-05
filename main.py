@@ -1,7 +1,5 @@
 from room import *
 
-evt = EventHandler()
-
 room = Room()
 
 @sio.event
@@ -39,17 +37,13 @@ class sock_rec_syn_class(Thread):
 
 sock_rec_syn_thread = sock_rec_syn_class()
 
-while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            sock_rec_syn_thread.stop()
-            sio.disconnect()
-            sock_receive.close()
-            pygame.quit()
-            sys.exit()
-        evt.handle_event(event)
+def on_closing():
+    sock_rec_syn_thread.stop()
+    sio.disconnect()
+    sock_receive.close()
+    window.destroy()
+    sys.exit()
 
-    screen.fill(-1)
-    room.draw()
-    pygame.display.flip()
-    clock.tick(40)
+window.protocol("WM_DELETE_WINDOW", on_closing)
+
+window.mainloop()

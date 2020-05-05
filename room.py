@@ -14,6 +14,7 @@ class Room:
             while(len(self.players) < len(data) - 1):
                 self.players.append(Player())
             while (len(self.players) > len(data) - 1):
+                self.players[-1].delete()
                 self.players.pop()
             for i in range(len(data)):
                 if data[i]:
