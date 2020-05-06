@@ -4,19 +4,18 @@ key_is_pressed = {}
 
 class Game:
     def __init__(self):
-        screen.bind('<KeyRelease>', self.handleKeyPressed)
-        screen.bind('<KeyPress>', self.handleKeyPressed)
+        window.bind('<KeyRelease>', self.handleKeyPressed)
+        window.bind('<KeyPress>', self.handleKeyPressed)
 
         chat.bind('<KeyRelease>', self.handleKeyPressed_chat)
         self.room = None
 
     def update_room(self, data):
         self.room.update(data)
-        if not self.room.is_chatting():
-            screen.focus_set()
 
     def handleKeyPressed_chat(self, evt):
         if evt.keycode == 13:
+            sio.emit("speech", chat.get("1.0", END))
             self.room.disable_chat()
 
     def handleKeyPressed(self, evt):

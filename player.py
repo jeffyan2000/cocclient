@@ -11,6 +11,8 @@ class Player:
         self.frames = (8, 4)
         self.image = screen.create_image(0, 0, image=animation_lib[self.texture][0], anchor=NW)
 
+        self.speeches = []
+
     def set_pos(self, pos):
         dx, dy = int(pos[0]) - self.pos[0], int(pos[1]) - self.pos[1]
         screen.move(self.image, dx, dy)

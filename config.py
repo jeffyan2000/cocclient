@@ -26,6 +26,8 @@ HOST_IP = "localhost"
 sock_receive = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock_receive.bind(("0.0.0.0", UDP_PORT_RECEIVE))
 
+speech_width = 20
+
 sio = socketio.Client()
 
 image_lib = {}
@@ -73,3 +75,5 @@ titles["chat"].pack()
 chat.pack(fill=BOTH, expand=1)
 
 screen.focus_set()
+
+screen.create_text((20, 20), text="hello")
