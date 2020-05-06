@@ -52,7 +52,7 @@ loadFrames("default", (77, 77), (8, 4))
 
 class GCanvas(Canvas):
     def __init__(self):
-        Canvas.__init__(self, window, width=screen_width, height=screen_height)
+        Canvas.__init__(self, window, width=screen_width, height=screen_height, background="#FFFFFF")
         self.after(40, self.onTimer)
 
     def onTimer(self):
@@ -61,4 +61,15 @@ class GCanvas(Canvas):
 
 
 screen = GCanvas()
-screen.pack(expand=YES, fill=BOTH)
+
+titles = {"chat":Label(window, text="Press [T] to Chat, [Return] to finish typing"),
+        "name":Label(window, text="CocTool Alpha")}
+
+chat = Text(width=int(screen_width/8), height=int(screen_height/40), wrap=WORD, background="#FFFFFF")
+chat.config(state='disabled')
+
+screen.pack(fill=BOTH, expand=1)
+titles["chat"].pack()
+chat.pack(fill=BOTH, expand=1)
+
+screen.focus_set()

@@ -1,7 +1,8 @@
 from config import *
 
 class Player:
-    def __init__(self):
+    def __init__(self, room):
+        self.room = room
         self.pos = [0, 0]
         self.previous_state = 0
         self.state = 0
@@ -21,33 +22,3 @@ class Player:
 
     def delete(self):
         screen.delete(self.image)
-
-
-key_is_pressed = {}
-def handleKeyPressed(evt):
-    is_pressed = None
-    if str(evt.type) == "KeyPress":
-
-        if evt.char not in key_is_pressed:
-            key_is_pressed[evt.char] = True
-            is_pressed = True
-        else:
-            if key_is_pressed[evt.char] == False:
-                is_pressed = True
-                key_is_pressed[evt.char] = True
-
-    elif str(evt.type) == "KeyRelease":
-        key_is_pressed[evt.char] = False
-        is_pressed = False
-    if  is_pressed is not None:
-        if evt.char == 'w':
-            sio.emit("keyPressed", ["1", is_pressed])
-        elif evt.char == 'a':
-            sio.emit("keyPressed", ["2", is_pressed])
-        elif evt.char == 's':
-            sio.emit("keyPressed", ["3", is_pressed])
-        elif evt.char == 'd':
-            sio.emit("keyPressed", ["4", is_pressed])
-
-window.bind('<KeyRelease>', handleKeyPressed)
-window.bind('<KeyPress>', handleKeyPressed)

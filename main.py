@@ -1,6 +1,7 @@
-from room import *
+from game import *
 
-room = Room()
+game = Game()
+game.room = Room()
 
 @sio.event
 def connect():
@@ -30,7 +31,7 @@ class sock_rec_syn_class(Thread):
         sock_receive.sendto(bytes("Hello udp", "utf-8"), (HOST_IP, UDP_PORT_SEND))
         while not self.dead:
             data, addr = sock_receive.recvfrom(1024)
-            room.update(data.decode('ascii'))
+            game.update_room(data.decode('ascii'))
 
     def stop(self):
         self.dead = True
