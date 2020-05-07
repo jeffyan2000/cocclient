@@ -33,6 +33,9 @@ class Room:
                 if data[i]:
                     temp = data[i].split('*')
                     if temp[0] in self.players:
+                        if temp[0] == IDS["id"]:
+                            self.my_x = int(temp[1])
+                            self.my_y = int(temp[2])
                         self.players[temp[0]].set_pos((int(temp[1])+screen_offset[0], int(temp[2])+screen_offset[1]))
                         self.players[temp[0]].state = int(temp[3])
             screen.update()

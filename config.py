@@ -13,7 +13,7 @@ window = Tk()
 window.title("test")
 
 arial36 = tkFont.Font(family='Arial', size=36)
-arial14 = tkFont.Font(family='Arial', size=12)
+arial14 = tkFont.Font(family='Arial', size=9)
 
 
 import socket
@@ -26,7 +26,7 @@ UDP_PORT_SEND = 6002
 #tcp sending port
 TCP_PORT_SEND = 6001
 #destination IP vps197548.vps.ovh.ca
-HOST_IP = "localhost"
+HOST_IP = "vps197548.vps.ovh.ca"
 
 #udp sender socket
 # udp receiver socket
@@ -53,11 +53,17 @@ def loadFrames(name, size, frames):
 texture_lib = {}
 animation_lib = {}
 
-texture_names = ["default", "skin1"]
+skins = os.listdir(os.path.join("lib", "characters"))
+
+texture_names = []
+for character_texture in skins:
+    texture_names.append(character_texture[:-4])
+
 for name in texture_names:
     texture_lib[name] = load(name)
-loadFrames("default", player_deme, (8, 4))
-loadFrames("skin1", player_deme, (8, 4))
+
+for character_texture in skins:
+    loadFrames(character_texture[:-4], player_deme, (8, 4))
 
 class GCanvas(Canvas):
     def __init__(self):
@@ -83,4 +89,4 @@ with open('player_info.json') as f:
 
 IDS = {"id":None, "name":my_info["info"][0]["name"], "skin":my_info["info"][0]["skin"]}
 
-WORD_LIMIT = 40
+WORD_LIMIT = 100

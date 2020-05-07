@@ -14,18 +14,32 @@ class Player:
         self.id = id
 
         self.current_text = ""
-        self.speech = screen.create_text(int(player_deme[0]/2), -20, font=arial14, justify=CENTER, text=self.current_text, width=120)
+        self.bubble = None
+        self.speech = None
         self.speech_start_time = 0
         self.speech_total_time = 0
 
     def start_speech(self, text):
+        self.stop_speech()
+        size = arial14.measure(text)
+        if size > 300:
+            size = 300
+        self.bubble = screen.create_rectangle(int(player_deme[0] / 2) - size/2 - 5 + self.pos[0],
+                                              -55 + self.pos[1], int(player_deme[0] / 2) + self.pos[0] + size/2 + 5,
+                                              5 + self.pos[1],
+                                              fill="#FFFFFF")
+        self.speech = screen.create_text(int(player_deme[0] / 2) + self.pos[0],
+                                         -25 + self.pos[1], font=arial14, justify=CENTER,
+                                         text=text, width=300)
+
         screen.itemconfig(self.speech, text=text)
         self.current_text = text
         self.speech_start_time = time.time()
-        self.speech_total_time = arial36.measure(text)/100
+        self.speech_total_time = arial14.measure(text)/50
 
     def stop_speech(self):
-        screen.itemconfig(self.speech, text="")
+        screen.delete(self.speech)
+        screen.delete(self.bubble)
         self.current_text = ""
 
     def update(self):
@@ -42,8 +56,10 @@ class Player:
             screen.itemconfig(self.image, image=animation_lib[self.texture][self.state])
 
     def move(self, pos):
+        if self.speech and self.bubble:
+            screen.move(self.speech, pos[0], pos[1])
+            screen.move(self.bubble, pos[0], pos[1])
         screen.move(self.image, pos[0], pos[1])
-        screen.move(self.speech, pos[0], pos[1])
         self.pos[0] += int(pos[0])
         self.pos[1] += int(pos[1])
 
