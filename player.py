@@ -67,5 +67,9 @@ class Player:
 
     def delete(self):
         screen.delete(self.image)
-        screen.delete(self.speech)
+        screen.delete(self.name_box)
+        if self.speech:
+            screen.delete(self.speech)
+        if self.bubble:
+            screen.delete(self.bubble)
         del self.room.players[self.id]

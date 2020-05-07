@@ -26,7 +26,7 @@ UDP_PORT_SEND = 6002
 #tcp sending port
 TCP_PORT_SEND = 6001
 #destination IP vps197548.vps.ovh.ca
-HOST_IP = "localhost"
+HOST_IP = "vps197548.vps.ovh.ca"
 
 #udp sender socket
 # udp receiver socket
@@ -40,14 +40,14 @@ sio = socketio.Client()
 image_lib = {}
 def load(path, n):
     img = Image.open(os.path.join(path, n + ".png"))
-    image_lib[n] = img
+    image_lib[os.path.join(path, n + ".png")] = img
     return ImageTk.PhotoImage(img)
 
-def loadFrames(name, size, frames):
+def loadFrames(path, name, size, frames):
     animation_lib[name+"_frames"] = []
     for y in range(frames[1]):
         for x in range(frames[0]):
-            cropped = image_lib[name].crop((x * size[0], y * size[1], (x+1) * size[0], (y+1) * size[1]))
+            cropped = image_lib[os.path.join(path, name + ".png")].crop((x * size[0], y * size[1], (x+1) * size[0], (y+1) * size[1]))
             animation_lib[name+"_frames"].append(ImageTk.PhotoImage(cropped))
 
 texture_lib = {}
@@ -66,8 +66,8 @@ for name in texture_names:
 for name in background_names:
     background_lib[name] = load(os.path.join("lib", "room", "floor"), name)
 
-for character_texture in skins:
-    loadFrames(character_texture[:-4], player_deme, (8, 4))
+for character_texture in texture_names:
+    loadFrames(os.path.join("lib", "characters"), character_texture, player_deme, (8, 4))
 
 class GCanvas(Canvas):
     def __init__(self):
