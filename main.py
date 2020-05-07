@@ -6,7 +6,7 @@ game.room = Room()
 @sio.event
 def connect():
     print('connection established')
-    sio.emit('info', "Hello tcp")
+    sio.emit('info', IDS["name"] + "@" + IDS["skin"])
     sio.emit('port', UDP_PORT_RECEIVE)
 
 @sio.event
@@ -19,6 +19,29 @@ def id(data):
     IDS["id"] = data
 
 @sio.event
+def new_player(data):
+    temp = data.split("@")
+    game.room.add_player(temp[2], temp[0], temp[1])
+
+@sio.event
+def remove_player(data):
+    game.room.players[data].delete()
+
+@sio.event
+def new_players(data):
+    print(data)
+    temp = data.split("@")
+    for item in temp:
+        if item:
+            temp2 = item.split("*")
+            print(temp2)
+            game.room.add_player(temp2[2], temp2[0], temp2[1])
+
+@sio.event
+def sync_dict(data):
+    print('message received with ', data)\
+
+@sio.event
 def disconnect():
     print('disconnected from server')
 
@@ -28,8 +51,8 @@ class sock_rec_syn_class(Thread):
     def __init__(self):
         Thread.__init__(self)
         self.daemon = True
-        self.start()
         self.dead = False
+        self.start()
 
     def run(self):
         print("udp listening at " + str(UDP_PORT_RECEIVE))

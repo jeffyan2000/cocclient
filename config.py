@@ -1,5 +1,6 @@
-import sys, threading, os, random, time
+import sys, threading, os, random, time, json
 from tkinter import *
+from tkinter import font as tkFont
 from PIL import Image, ImageTk
 from threading import Thread
 
@@ -10,6 +11,9 @@ screen_offset = (int(screen_width/2 - player_deme[0]/2), int(screen_height/2 - p
 
 window = Tk()
 window.title("test")
+
+arial36 = tkFont.Font(family='Arial', size=36)
+arial14 = tkFont.Font(family='Arial', size=12)
 
 
 import socket
@@ -39,13 +43,6 @@ def load(n):
     image_lib[name] = img
     return ImageTk.PhotoImage(img)
 
-texture_names = ["default"]
-
-texture_lib = {}
-animation_lib = {}
-for name in texture_names:
-    texture_lib[name] = load(name)
-
 def loadFrames(name, size, frames):
     animation_lib[name+"_frames"] = []
     for y in range(frames[1]):
@@ -53,16 +50,18 @@ def loadFrames(name, size, frames):
             cropped = image_lib[name].crop((x * size[0], y * size[1], (x+1) * size[0], (y+1) * size[1]))
             animation_lib[name+"_frames"].append(ImageTk.PhotoImage(cropped))
 
+texture_lib = {}
+animation_lib = {}
+
+texture_names = ["default", "skin1"]
+for name in texture_names:
+    texture_lib[name] = load(name)
 loadFrames("default", player_deme, (8, 4))
+loadFrames("skin1", player_deme, (8, 4))
 
 class GCanvas(Canvas):
     def __init__(self):
         Canvas.__init__(self, window, width=screen_width, height=screen_height, background="#FFFFFF")
-        self.after(40, self.onTimer)
-
-    def onTimer(self):
-        self.after(40, self.onTimer)
-
 
 
 screen = GCanvas()
@@ -79,4 +78,9 @@ chat.pack(fill=BOTH, expand=1)
 
 screen.focus_set()
 
-IDS = {"id":None}
+with open('player_info.json') as f:
+  my_info = json.load(f)
+
+IDS = {"id":None, "name":my_info["info"][0]["name"], "skin":my_info["info"][0]["skin"]}
+
+WORD_LIMIT = 40
