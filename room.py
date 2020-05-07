@@ -2,8 +2,9 @@ from player import *
 
 class Room:
     def __init__(self):
-        self.players = []
+        self.players = {}
         self.chatting = False
+        self.my_x, self.my_y = 0, 0
 
     def is_chatting(self):
         return self.chatting
@@ -11,29 +12,36 @@ class Room:
     def set_chatting(self, isChatting):
         self.chatting = isChatting
 
-    def add_player(self):
-        self.players.append(Player(self))
+    def add_player(self, id):
+        self.players[id] = Player(self, id)
 
-    def pop_player(self):
-        self.players[-1].delete()
-        self.players.pop()
+    def pop_player(self, id):
+        self.players[id].delete()
 
     def draw(self):
         for player in self.players:
-            player.draw()
+            self.players[player].draw()
 
     def update(self, data):
-        if(data[:3] == "000"):
+        if data[:3] == "000":
             data = data[3:].split('@')
-            while(len(self.players) < len(data) - 1):
-                self.add_player()
-            while (len(self.players) > len(data) - 1):
-                self.pop_player()
             for i in range(len(data)):
                 if data[i]:
                     temp = data[i].split('*')
-                    self.players[i].set_pos((temp[0], temp[1]))
-                    self.players[i].state = int(temp[2])
+                    if temp[0] == IDS["id"]:
+                        self.my_x = int(temp[1])
+                        self.my_y = int(temp[2])
+                    if temp[0] not in self.players:
+                        self.add_player(temp[0])
+                    self.players[temp[0]].set_pos((temp[1], temp[2]))
+                    self.players[temp[0]].state = int(temp[3])
+
+            for player in self.players:
+                self.players[player].move((-self.my_x+screen_offset[0], -self.my_y+screen_offset[1]))
+
+        elif data[:3] == "001":
+            self.players[data[3:5]].start_speech(data[5:])
+
 
     def enable_chat(self):
         self.set_chatting(True)

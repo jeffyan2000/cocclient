@@ -4,6 +4,9 @@ from PIL import Image, ImageTk
 from threading import Thread
 
 screen_width, screen_height = 400, 400
+player_deme = (77, 77)
+
+screen_offset = (int(screen_width/2 - player_deme[0]/2), int(screen_height/2 - player_deme[1]/2))
 
 window = Tk()
 window.title("test")
@@ -50,7 +53,7 @@ def loadFrames(name, size, frames):
             cropped = image_lib[name].crop((x * size[0], y * size[1], (x+1) * size[0], (y+1) * size[1]))
             animation_lib[name+"_frames"].append(ImageTk.PhotoImage(cropped))
 
-loadFrames("default", (77, 77), (8, 4))
+loadFrames("default", player_deme, (8, 4))
 
 class GCanvas(Canvas):
     def __init__(self):
@@ -76,4 +79,4 @@ chat.pack(fill=BOTH, expand=1)
 
 screen.focus_set()
 
-screen.create_text((20, 20), text="hello")
+IDS = {"id":None}

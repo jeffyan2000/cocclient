@@ -11,7 +11,12 @@ def connect():
 
 @sio.event
 def message(data):
-    print('message received with ', data)
+    print('message received with ', data)\
+
+@sio.event
+def id(data):
+    print('My id is ', data)
+    IDS["id"] = data
 
 @sio.event
 def disconnect():
@@ -30,8 +35,9 @@ class sock_rec_syn_class(Thread):
         print("udp listening at " + str(UDP_PORT_RECEIVE))
         sock_receive.sendto(bytes("Hello udp", "utf-8"), (HOST_IP, UDP_PORT_SEND))
         while not self.dead:
-            data, addr = sock_receive.recvfrom(1024)
-            game.update_room(data.decode('ascii'))
+            if IDS["id"] is not None:
+                data, addr = sock_receive.recvfrom(1024)
+                game.update_room(data.decode('utf-8'))
 
     def stop(self):
         self.dead = True
