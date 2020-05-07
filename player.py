@@ -12,6 +12,7 @@ class Player:
         self.frames = (8, 4)
         self.image = screen.create_image(0, 0, image=animation_lib[self.texture][0], anchor=NW)
         self.id = id
+        self.name_box = screen.create_text(player_deme[0]/2, player_deme[1] + 10, text=self.name)
 
         self.current_text = ""
         self.bubble = None
@@ -60,6 +61,7 @@ class Player:
             screen.move(self.speech, pos[0], pos[1])
             screen.move(self.bubble, pos[0], pos[1])
         screen.move(self.image, pos[0], pos[1])
+        screen.move(self.name_box, pos[0], pos[1])
         self.pos[0] += int(pos[0])
         self.pos[1] += int(pos[1])
 

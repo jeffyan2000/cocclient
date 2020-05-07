@@ -26,7 +26,7 @@ UDP_PORT_SEND = 6002
 #tcp sending port
 TCP_PORT_SEND = 6001
 #destination IP vps197548.vps.ovh.ca
-HOST_IP = "vps197548.vps.ovh.ca"
+HOST_IP = "localhost"
 
 #udp sender socket
 # udp receiver socket
@@ -38,9 +38,9 @@ speech_width = 20
 sio = socketio.Client()
 
 image_lib = {}
-def load(n):
-    img = Image.open(os.path.join("lib", "characters", n + ".png"))
-    image_lib[name] = img
+def load(path, n):
+    img = Image.open(os.path.join(path, n + ".png"))
+    image_lib[n] = img
     return ImageTk.PhotoImage(img)
 
 def loadFrames(name, size, frames):
@@ -52,15 +52,19 @@ def loadFrames(name, size, frames):
 
 texture_lib = {}
 animation_lib = {}
+background_lib = {}
 
 skins = os.listdir(os.path.join("lib", "characters"))
 
 texture_names = []
+background_names = ["default"]
 for character_texture in skins:
     texture_names.append(character_texture[:-4])
 
 for name in texture_names:
-    texture_lib[name] = load(name)
+    texture_lib[name] = load(os.path.join("lib", "characters"), name)
+for name in background_names:
+    background_lib[name] = load(os.path.join("lib", "room", "floor"), name)
 
 for character_texture in skins:
     loadFrames(character_texture[:-4], player_deme, (8, 4))

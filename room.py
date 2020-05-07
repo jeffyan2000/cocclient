@@ -5,6 +5,14 @@ class Room:
         self.players = {}
         self.chatting = False
         self.my_x, self.my_y = 0, 0
+        self.background = screen.create_image(0, 0, image=background_lib["default"])
+
+    def set_pos(self, pos):
+        dx, dy = pos[0] - self.my_x, pos[1] - self.my_y
+        if dx or dy:
+            screen.move(self.background, dx, dy)
+            self.my_x = pos[0]
+            self.my_y = pos[1]
 
     def is_chatting(self):
         return self.chatting
@@ -32,17 +40,15 @@ class Room:
             for i in range(len(data)):
                 if data[i]:
                     temp = data[i].split('*')
-                    if temp[0] in self.players:
-                        if temp[0] == IDS["id"]:
-                            self.my_x = int(temp[1])
-                            self.my_y = int(temp[2])
+                    if temp[0] == "!":
+                        self.set_pos((-int(temp[1]), -int(temp[2])))
+                    elif temp[0] in self.players:
                         self.players[temp[0]].set_pos((int(temp[1])+screen_offset[0], int(temp[2])+screen_offset[1]))
                         self.players[temp[0]].state = int(temp[3])
             screen.update()
 
         elif data[:3] == "001":
             self.players[data[3:5]].start_speech(data[5:])
-
 
     def enable_chat(self):
         self.set_chatting(True)
