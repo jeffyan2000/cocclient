@@ -5,6 +5,7 @@ class Room:
         self.players = {}
         self.chatting = False
         self.my_x, self.my_y = 0, 0
+        self.my_ox, self.my_oy = 0, 0
         self.background = screen.create_image(screen_offset[0], screen_offset[1], anchor="nw", image=background_lib["default"])
 
     def set_pos(self, pos):
@@ -41,8 +42,11 @@ class Room:
                 if data[i]:
                     temp = data[i].split('*')
                     if temp[0] == "!":
-                        self.set_pos((-int(temp[1]), -int(temp[2])))
+                        self.set_pos((-int(temp[1]) + self.my_ox, -int(temp[2]) + self.my_oy))
                     elif temp[0] in self.players:
+                        if temp[0] == IDS["id"]:
+                            self.my_ox = int(temp[1])
+                            self.my_oy = int(temp[2])
                         self.players[temp[0]].set_pos((int(temp[1])+screen_offset[0], int(temp[2])+screen_offset[1]))
                         self.players[temp[0]].state = int(temp[3])
             screen.update()
