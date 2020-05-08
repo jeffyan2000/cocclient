@@ -10,6 +10,7 @@ player_deme = (77, 77)
 screen_offset = (int(screen_width/2 - player_deme[0]/2), int(screen_height/2 - player_deme[1]/2))
 
 window = Tk()
+window.resizable(False, False)
 window.title("test")
 
 arial36 = tkFont.Font(family='Arial', size=36)
