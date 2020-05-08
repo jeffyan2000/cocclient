@@ -4,7 +4,7 @@ from tkinter import font as tkFont
 from PIL import Image, ImageTk
 from threading import Thread
 
-screen_width, screen_height = 400, 400
+screen_width, screen_height = 600, 500
 player_deme = (77, 77)
 
 screen_offset = (int(screen_width/2 - player_deme[0]/2), int(screen_height/2 - player_deme[1]/2))
@@ -26,7 +26,7 @@ UDP_PORT_SEND = 6002
 #tcp sending port
 TCP_PORT_SEND = 6001
 #destination IP vps197548.vps.ovh.ca
-HOST_IP = "vps197548.vps.ovh.ca"
+HOST_IP = "localhost"
 
 #udp sender socket
 # udp receiver socket
@@ -71,7 +71,7 @@ for character_texture in texture_names:
 
 class GCanvas(Canvas):
     def __init__(self):
-        Canvas.__init__(self, window, width=screen_width, height=screen_height, background="#FFFFFF")
+        Canvas.__init__(self, window, width=screen_width, height=screen_height, background="#222222")
 
 
 screen = GCanvas()
@@ -79,7 +79,7 @@ screen = GCanvas()
 titles = {"chat":Label(window, text="Press [T] to Chat, [Return] to finish typing"),
         "name":Label(window, text="CocTool Alpha")}
 
-chat = Text(width=int(screen_width/8), height=int(screen_height/40), wrap=WORD, background="#FFFFFF")
+chat = Text(width=int(screen_width/8), height=int(screen_height/50), wrap=WORD, background="#FFFFFF")
 chat.config(state='disabled')
 
 screen.pack(fill=BOTH, expand=1)

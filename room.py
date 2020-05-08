@@ -5,7 +5,7 @@ class Room:
         self.players = {}
         self.chatting = False
         self.my_x, self.my_y = 0, 0
-        self.background = screen.create_image(0, 0, image=background_lib["default"])
+        self.background = screen.create_image(270, 220, image=background_lib["default"])
 
     def set_pos(self, pos):
         dx, dy = pos[0] - self.my_x, pos[1] - self.my_y
