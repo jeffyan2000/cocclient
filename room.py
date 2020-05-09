@@ -36,19 +36,23 @@ class Room:
             self.players[player].update()
 
     def update(self, data):
+        tempmyxy = [0, 0]
         if data[:3] == "000":
             data = data[3:].split('@')
             for i in range(len(data)):
                 if data[i]:
                     temp = data[i].split('*')
                     if temp[0] == "!":
-                        self.set_pos((-int(temp[1]) + self.my_ox, -int(temp[2]) + self.my_oy))
+                        tempmyxy[0] = -int(temp[1])
+                        tempmyxy[1] = -int(temp[2])
+
                     elif temp[0] in self.players:
                         if temp[0] == IDS["id"]:
                             self.my_ox = int(temp[1])
                             self.my_oy = int(temp[2])
                         self.players[temp[0]].set_pos((int(temp[1])+screen_offset[0], int(temp[2])+screen_offset[1]))
                         self.players[temp[0]].state = int(temp[3])
+            self.set_pos((tempmyxy[0] + self.my_ox, tempmyxy[1] + self.my_oy))
             screen.update()
 
         elif data[:3] == "001":
