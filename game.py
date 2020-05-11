@@ -7,11 +7,11 @@ class Game:
         window.bind('<KeyRelease>', self.handleKeyPressed)
         window.bind('<KeyPress>', self.handleKeyPressed)
         self.room = None
-        window.after(100, self.update)
+        window.after(200, self.update)
 
     def update(self):
         self.room.update_players()
-        window.after(100, self.update)
+        window.after(200, self.update)
 
     def update_room(self, data):
         self.room.update(data)
