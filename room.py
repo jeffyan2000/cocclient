@@ -6,12 +6,18 @@ class Room:
         self.chatting = False
         self.my_x, self.my_y = 0, 0
         self.my_ox, self.my_oy = 0, 0
+        self.dropped_items = {}
         self.background = screen.create_image(screen_offset[0], screen_offset[1], anchor="nw", image=background_lib["default"])
+
+    def drop_item(self, item):
+        self.dropped_items[item.id] = item
 
     def set_pos(self, pos):
         dx, dy = pos[0] - self.my_x, pos[1] - self.my_y
         if dx or dy:
             screen.move(self.background, dx, dy)
+            for itemKey in self.dropped_items:
+                self.dropped_items[itemKey].move(dx, dy)
             self.my_x = pos[0]
             self.my_y = pos[1]
 

@@ -1,4 +1,5 @@
 from config import *
+from items import *
 
 class Player:
     def __init__(self, room, id, name, skin):

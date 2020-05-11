@@ -44,6 +44,9 @@ def load(path, n):
     image_lib[os.path.join(path, n + ".png")] = img
     return ImageTk.PhotoImage(img)
 
+def loadTools(name):
+    return load(os.path.join("lib", "items", "tools"), name)
+
 def loadFrames(path, name, size, frames):
     animation_lib[name+"_frames"] = []
     for y in range(frames[1]):
@@ -54,13 +57,17 @@ def loadFrames(path, name, size, frames):
 texture_lib = {}
 animation_lib = {}
 background_lib = {}
+item_lib = {}
 
+tools = os.listdir(os.path.join("lib", "items", "tools"))
 skins = os.listdir(os.path.join("lib", "characters"))
 
 texture_names = []
 background_names = ["default"]
 for character_texture in skins:
     texture_names.append(character_texture[:-4])
+for tool_texture in tools:
+    item_lib["tool"+tool_texture[:-4]] = loadTools(tool_texture[:-4])
 
 for name in texture_names:
     texture_lib[name] = load(os.path.join("lib", "characters"), name)
