@@ -1,13 +1,16 @@
 from config import *
 
 class Item:
-    def __init__(self, iid, texture):
+    def __init__(self, iid, texture, name=None):
         self.id = iid
         self.dropped = False
         self.pos = [0, 0]
         self.image = None
         self.size = (32, 32)
         self.texture = item_lib[texture]
+        self.name = texture
+        if name:
+            self.name = name
 
     def drop(self, pos):
         self.pos[0] = pos[0]
