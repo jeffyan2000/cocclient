@@ -11,6 +11,7 @@ class Game:
 
     def update(self):
         self.room.update_players()
+        self.room.update_items()
         window.after(200, self.update)
 
     def update_room(self, data):

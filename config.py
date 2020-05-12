@@ -15,6 +15,7 @@ window.title("test")
 
 arial36 = tkFont.Font(family='Arial', size=36)
 arial14 = tkFont.Font(family='Arial', size=9)
+arial15 = tkFont.Font(family='Arial', size=15)
 
 
 import socket

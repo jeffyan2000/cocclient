@@ -9,6 +9,18 @@ class Room:
         self.dropped_items = {}
         self.background = screen.create_image(screen_offset[0], screen_offset[1], anchor="nw", image=background_lib["default"])
 
+    def update_items(self):
+        flag = False
+        for itemKey in self.dropped_items:
+            if self.dropped_items[itemKey].getDistance((self.my_ox+screen_offset[0],
+                                                        self.my_oy+screen_offset[1])) < 30 and not flag:
+                flag = True
+                if not self.dropped_items[itemKey].item_name_image:
+                    self.dropped_items[itemKey].showName()
+            else:
+                if self.dropped_items[itemKey].item_name_image:
+                    self.dropped_items[itemKey].hideName()
+
     def drop_item(self, item):
         self.dropped_items[item.id] = item
 
