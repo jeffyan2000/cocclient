@@ -59,11 +59,13 @@ texture_lib = {}
 animation_lib = {}
 background_lib = {}
 item_lib = {}
+gui_lib = {}
 
 tools = os.listdir(os.path.join("lib", "items", "tools"))
 skins = os.listdir(os.path.join("lib", "characters"))
 
 texture_names = []
+gui_names = ["backpack_bg", "slot"]
 background_names = ["default"]
 for character_texture in skins:
     texture_names.append(character_texture[:-4])
@@ -72,6 +74,8 @@ for tool_texture in tools:
 
 for name in texture_names:
     texture_lib[name] = load(os.path.join("lib", "characters"), name)
+for name in gui_names:
+    gui_lib[name] = load(os.path.join("lib", "gui"), name)
 for name in background_names:
     background_lib[name] = load(os.path.join("lib", "room", "floor"), name)
 

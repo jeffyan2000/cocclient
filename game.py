@@ -1,4 +1,5 @@
 from room import *
+from gui import *
 
 key_is_pressed = {}
 
