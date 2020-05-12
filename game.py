@@ -8,6 +8,7 @@ class Game:
         window.bind('<KeyPress>', self.handleKeyPressed)
         self.room = None
         window.after(200, self.update)
+        self.gui = None
 
     def update(self):
         self.room.update_players()
