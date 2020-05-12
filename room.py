@@ -13,7 +13,7 @@ class Room:
         flag = False
         for itemKey in self.dropped_items:
             if self.dropped_items[itemKey].getDistance((self.my_ox+screen_offset[0],
-                                                        self.my_oy+screen_offset[1])) < 30 and not flag:
+                                                        self.my_oy+screen_offset[1])) < 25 and not flag:
                 flag = True
                 if not self.dropped_items[itemKey].item_name_image:
                     self.dropped_items[itemKey].showName()
