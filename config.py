@@ -107,3 +107,10 @@ with open('player_info.json') as f:
 IDS = {"id":None, "name":my_info["info"][0]["name"], "skin":my_info["info"][0]["skin"]}
 
 WORD_LIMIT = 100
+
+mouse_pos = [0, 0]
+
+def motion(event):
+    mouse_pos[0], mouse_pos[1] = event.x, event.y
+
+window.bind('<Motion>', motion)

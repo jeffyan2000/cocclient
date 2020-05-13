@@ -7,13 +7,25 @@ class Game:
     def __init__(self):
         window.bind('<KeyRelease>', self.handleKeyPressed)
         window.bind('<KeyPress>', self.handleKeyPressed)
+        window.bind('<Button-1>', self.handleMousePressed)
+        window.bind('<ButtonRelease-1>', self.handleMouseReleased)
         self.room = None
         window.after(200, self.update)
         self.gui = None
 
+    def handleMousePressed(self, event):
+        if self.gui:
+            self.gui.onClick(event)
+
+    def handleMouseReleased(self, event):
+        if self.gui:
+            self.gui.onRelease(event)
+
     def update(self):
         self.room.update_players()
         self.room.update_items()
+        if self.gui:
+            self.gui.update()
         window.after(200, self.update)
 
     def update_room(self, data):
