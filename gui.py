@@ -40,12 +40,45 @@ class BackpackGui(Gui):
         self.pos[1] = 0
         self.bg_image = None
         self.slots = []
+        self.grabbed_item = None
+        self.item_pos = [0, 0]
+        self.item_deme = 32
+        self.item_rects = []
+        self.item_slot = []
+        for x in range(4):
+            self.item_rects.append((x * 40 + 49, 269, x * 40 + 49 + self.item_deme, 269 + self.item_deme))
+            self.item_slot.append(None)
+
+        for y in range(5):
+            for x in range(4):
+                self.item_rects.append((x*40 + 49, 45 + y*40, x*40 + 49 + self.item_deme, 45 + y*40 + self.item_deme))
+                self.item_slot.append(None)
 
     def move(self, dx, dy):
         Gui.move(self, dx, dy)
         for slot in self.slots:
             screen.move(slot, dx, dy)
         screen.move(self.bg_image, dx, dy)
+
+    def grab_item(self, texture):
+        pass
+
+    def update(self):
+        Gui.update(self)
+        if self.grabbed_item:
+            dx, dy = mouse_pos[0] - self.item_pos[0], mouse_pos[1] - self.item_pos[1]
+            screen.move(self.item_pos, dx, dy)
+
+    def colliedItem(self, event):
+        for index, rect in enumerate(self.item_rects):
+            if rect[0] < event.x - self.pos[0] < rect[2]:
+                if rect[1] < event.y - self.pos[1] < rect[3]:
+                    return index
+        return -1
+
+    def onClick(self, event):
+        Gui.onClick(self, event)
+        self.colliedItem(event)
 
     def show(self):
         self.bg_image = screen.create_image(self.pos[0], self.pos[1], anchor="nw", image=gui_lib["backpack_bg"])
