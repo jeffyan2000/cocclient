@@ -77,9 +77,10 @@ def on_closing():
 window.protocol("WM_DELETE_WINDOW", on_closing)
 
 item_shovel = Item(1, "tool1")
-item_shovel.drop((600, 500))
-game.room.drop_item(item_shovel)
+game.room.drop_item(item_shovel, (600, 500))
 game.gui = BackpackGui()
 game.gui.show()
+item_shovel2 = Item(2, "tool1")
+game.gui.put_item(0, item_shovel2)
 
 window.mainloop()

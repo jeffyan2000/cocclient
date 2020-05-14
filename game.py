@@ -10,7 +10,7 @@ class Game:
         window.bind('<Button-1>', self.handleMousePressed)
         window.bind('<ButtonRelease-1>', self.handleMouseReleased)
         self.room = None
-        window.after(200, self.update)
+        window.after(50, self.update)
         self.gui = None
 
     def handleMousePressed(self, event):

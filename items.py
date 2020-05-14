@@ -36,11 +36,10 @@ class Item:
         return (abs(pos[0] + player_deme[0]/2 - self.pos[0])
                 + abs(pos[1] + player_deme[1] - self.pos[1]))/2
 
-    def drop(self, pos):
+    def create_image(self, pos):
         self.pos[0] = pos[0]
         self.pos[1] = pos[1]
         self.image = screen.create_image(self.pos[0], self.pos[1], image=self.texture)
-        self.dropped = True
 
     def move(self, dx, dy):
         if self.image:
@@ -51,6 +50,10 @@ class Item:
                 screen.move(self.item_name_image, dx, dy)
             if self.item_name_bg:
                 screen.move(self.item_name_bg, dx, dy)
+
+    def set_pos(self, pos):
+        dx, dy = int(pos[0]) - self.pos[0], int(pos[1]) - self.pos[1]
+        self.move(dx, dy)
 
     def pick(self):
         screen.delete(self.image)

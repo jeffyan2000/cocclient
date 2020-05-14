@@ -21,8 +21,10 @@ class Room:
                 if self.dropped_items[itemKey].item_name_image:
                     self.dropped_items[itemKey].hideName()
 
-    def drop_item(self, item):
+    def drop_item(self, item, pos):
         self.dropped_items[item.id] = item
+        self.dropped_items[item.id].create_image(pos)
+        self.dropped_items[item.id].dropped = True
 
     def set_pos(self, pos):
         dx, dy = pos[0] - self.my_x, pos[1] - self.my_y

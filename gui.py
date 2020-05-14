@@ -1,4 +1,4 @@
-from config import *
+from items import *
 
 class Gui:
     def __init__(self):
@@ -41,7 +41,6 @@ class BackpackGui(Gui):
         self.bg_image = None
         self.slots = []
         self.grabbed_item = None
-        self.item_pos = [0, 0]
         self.item_deme = 32
         self.item_rects = []
         self.item_slot = []
@@ -56,18 +55,22 @@ class BackpackGui(Gui):
 
     def move(self, dx, dy):
         Gui.move(self, dx, dy)
-        for slot in self.slots:
-            screen.move(slot, dx, dy)
+        for slotindex in range(len(self.slots)):
+            screen.move(self.slots[slotindex], dx, dy)
+            if self.item_slot[slotindex] is not None:
+                self.item_slot[slotindex].move(dx, dy)
         screen.move(self.bg_image, dx, dy)
 
-    def grab_item(self, texture):
-        pass
+    def put_item(self, slot, item):
+        self.item_slot[slot] = item
+        item.create_image((self.item_rects[slot][0] + self.pos[0] + item.size[0]/2,
+                           self.item_rects[slot][1] + self.pos[1] + item.size[1]/2))
 
     def update(self):
         Gui.update(self)
         if self.grabbed_item:
-            dx, dy = mouse_pos[0] - self.item_pos[0], mouse_pos[1] - self.item_pos[1]
-            screen.move(self.item_pos, dx, dy)
+            dx, dy = mouse_pos[0] - self.grabbed_item.pos[0], mouse_pos[1] - self.grabbed_item.pos[1]
+            self.grabbed_item.move(dx, dy)
 
     def colliedItem(self, event):
         for index, rect in enumerate(self.item_rects):
@@ -78,7 +81,17 @@ class BackpackGui(Gui):
 
     def onClick(self, event):
         Gui.onClick(self, event)
-        self.colliedItem(event)
+        temp_slot = self.colliedItem(event)
+        if temp_slot != -1:
+            if self.grabbed_item is None:
+                self.grabbed_item = self.item_slot[temp_slot]
+                self.item_slot[temp_slot] = None
+            elif self.item_slot[temp_slot] is None:
+                self.item_slot[temp_slot] = self.grabbed_item
+                self.grabbed_item = None
+                self.item_slot[temp_slot].set_pos((self.item_rects[temp_slot][0] + self.pos[0] + self.item_slot[temp_slot].size[0]/2,
+                                                self.item_rects[temp_slot][1] + self.pos[1] + self.item_slot[temp_slot].size[1]/2))
+
 
     def show(self):
         self.bg_image = screen.create_image(self.pos[0], self.pos[1], anchor="nw", image=gui_lib["backpack_bg"])
