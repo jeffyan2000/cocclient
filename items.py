@@ -58,11 +58,3 @@ class Item:
     def pick(self):
         screen.delete(self.image)
         self.image = None
-
-class BackPack:
-    def __init__(self, row):
-        self.row = row
-        self.items = [[None, None, None, None, None] for _ in range(row)]
-
-
-
