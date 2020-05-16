@@ -83,19 +83,13 @@ class BackpackGui(Gui):
         Gui.onClick(self, event)
         temp_slot = self.colliedItem(event)
         if temp_slot != -1:
-            if self.grabbed_item is None:
-                self.grabbed_item = self.item_slot[temp_slot]
-                self.item_slot[temp_slot] = None
-            elif self.item_slot[temp_slot] is None:
-                self.item_slot[temp_slot] = self.grabbed_item
-                self.grabbed_item = None
-                self.item_slot[temp_slot].set_pos((self.item_rects[temp_slot][0] + self.pos[0] + self.item_slot[temp_slot].size[0]/2,
-                                                self.item_rects[temp_slot][1] + self.pos[1] + self.item_slot[temp_slot].size[1]/2))
-            else:
-                self.item_slot[temp_slot], self.grabbed_item = self.grabbed_item, self.item_slot[temp_slot]
-                self.item_slot[temp_slot].set_pos(
-                    (self.item_rects[temp_slot][0] + self.pos[0] + self.item_slot[temp_slot].size[0] / 2,
-                     self.item_rects[temp_slot][1] + self.pos[1] + self.item_slot[temp_slot].size[1] / 2))
+            if self.item_slot[temp_slot] is not None or self.grabbed_item is not None:
+                sio.emit('backpackOperation', temp_slot)
+                self.grabbed_item, self.item_slot[temp_slot] = self.item_slot[temp_slot], self.grabbed_item
+                if self.item_slot[temp_slot] is not None:
+                    self.item_slot[temp_slot].set_pos(
+                        (self.item_rects[temp_slot][0] + self.pos[0] + self.item_slot[temp_slot].size[0] / 2,
+                         self.item_rects[temp_slot][1] + self.pos[1] + self.item_slot[temp_slot].size[1] / 2))
 
     def show(self):
         self.bg_image = screen.create_image(self.pos[0], self.pos[1], anchor="nw", image=gui_lib["backpack_bg"])
