@@ -106,4 +106,12 @@ class BackpackGui(Gui):
                                     anchor="nw", image=gui_lib["slot"]))
                 screen.tag_raise(self.slots[-1])
 
-
+    def close(self):
+        screen.delete(self.bg_image)
+        for slot in self.slots:
+            screen.delete(slot)
+        for slot in self.item_slot:
+            if slot:
+                screen.delete(slot.image)
+        if self.grabbed_item:
+            screen.delete(self.grabbed_item.image)

@@ -13,6 +13,18 @@ class Game:
         window.after(50, self.update)
         self.gui = None
 
+    def showGuiBackpack(self):
+        if self.gui is None:
+            self.gui = BackpackGui()
+            self.gui.show()
+            self.gui.put_item(0, Item(2, "toolshovel"))
+            self.gui.put_item(1, Item(1, "toolpickaxe"))
+
+    def closeGuiBackpack(self):
+        if self.gui:
+            self.gui.close()
+            self.gui = None
+
     def handleMousePressed(self, event):
         if self.gui:
             self.gui.onClick(event)
@@ -66,6 +78,12 @@ class Game:
                     #switch to chat
                     elif not is_pressed and evt.char == 't':
                         self.room.enable_chat()
+                    #open backpack
+                    elif evt.char == 'b' and is_pressed:
+                        if self.gui:
+                            self.closeGuiBackpack()
+                        else:
+                            self.showGuiBackpack()
 
                 elif evt.keycode == 13:
                     msg = chat.get("1.0", END)

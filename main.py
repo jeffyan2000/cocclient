@@ -78,11 +78,5 @@ window.protocol("WM_DELETE_WINDOW", on_closing)
 
 item_shovel = Item(1, "toolshovel")
 game.room.drop_item(item_shovel, (600, 500))
-game.gui = BackpackGui()
-game.gui.show()
-item_shovel2 = Item(2, "toolshovel")
-game.gui.put_item(0, item_shovel2)
-item_pickaxe = Item(3, "toolpickaxe")
-game.gui.put_item(1, item_pickaxe)
 
 window.mainloop()
