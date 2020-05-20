@@ -114,3 +114,5 @@ def motion(event):
     mouse_pos[0], mouse_pos[1] = event.x, event.y
 
 window.bind('<Motion>', motion)
+
+item_id_list = {}

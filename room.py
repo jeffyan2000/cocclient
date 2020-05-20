@@ -22,8 +22,11 @@ class Room:
                     self.dropped_items[itemKey].hideName()
 
     def drop_item(self, item, pos):
+        temp = [0, 0]
+        temp[0] = self.my_x + pos[0] + screen_offset[0] + player_deme[0]/2
+        temp[1] = self.my_y + pos[1] + screen_offset[1] + player_deme[1]/2
         self.dropped_items[item.id] = item
-        self.dropped_items[item.id].create_image(pos)
+        self.dropped_items[item.id].create_image(temp)
         self.dropped_items[item.id].dropped = True
 
     def set_pos(self, pos):
@@ -77,6 +80,10 @@ class Room:
 
         elif data[:3] == "001":
             self.players[data[3:5]].start_speech(data[5:])
+
+        elif data[:3] == "100":
+            temp = data[3:].split("@")
+            self.drop_item(item_id_list[temp[0]], (int(temp[1]), int(temp[2])))
 
     def enable_chat(self):
         self.set_chatting(True)

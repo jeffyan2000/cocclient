@@ -22,6 +22,8 @@ class Game:
 
     def closeGui(self):
         if self.gui:
+            if self.gui.type == "backpack":
+                sio.emit("requestCloseGui", "1")
             self.gui.close()
             self.gui = None
 

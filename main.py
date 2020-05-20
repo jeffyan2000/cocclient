@@ -3,10 +3,8 @@ from game import *
 game = Game()
 game.room = Room()
 
-item_id_list = {
-        "1": Item(1, "toolpickaxe"),
-        "2": Item(2, "toolshovel")
-    }
+item_id_list["1"] = Item(1, "toolpickaxe")
+item_id_list["2"] = Item(2, "toolshovel")
 
 @sio.event
 def connect():
@@ -34,7 +32,6 @@ def remove_player(data):
 
 @sio.event
 def new_players(data):
-    print(data)
     temp = data.split("@")
     for item in temp:
         if item:

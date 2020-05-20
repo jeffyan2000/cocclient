@@ -6,6 +6,7 @@ class Gui:
         self.grabbed = False
         self.clicked_pos = [0, 0]
         self.grab_rect = (86, 34, 159, 46)
+        self.type = "default"
 
     def show(self):
         pass
@@ -36,6 +37,7 @@ class Gui:
 class BackpackGui(Gui):
     def __init__(self):
         Gui.__init__(self)
+        self.type = "backpack"
         self.pos[0] = 350
         self.pos[1] = 0
         self.bg_image = None
