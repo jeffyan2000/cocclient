@@ -3,6 +3,11 @@ from game import *
 game = Game()
 game.room = Room()
 
+item_id_list = {
+        "1": Item(1, "toolpickaxe"),
+        "2": Item(2, "toolshovel")
+    }
+
 @sio.event
 def connect():
     print('connection established')
@@ -39,11 +44,24 @@ def new_players(data):
 
 @sio.event
 def sync_dict(data):
-    print('message received with ', data)\
+    print('message received with ', data)
 
 @sio.event
 def disconnect():
     print('disconnected from server')
+
+@sio.event
+def openGui(data):
+    if data[0] == "1":
+        slot_info = data[1:].split("@")[1:]
+        gui = BackpackGui()
+        gui.show()
+        for i in range(len(slot_info)):
+            if slot_info[i]:
+                gui.put_item(i, item_id_list[slot_info[i]])
+        game.showGui(gui)
+
+
 
 sio.connect('http://{}:{}'.format(HOST_IP, TCP_PORT_SEND))
 
@@ -75,8 +93,5 @@ def on_closing():
     sys.exit()
 
 window.protocol("WM_DELETE_WINDOW", on_closing)
-
-item_shovel = Item(1, "toolshovel")
-game.room.drop_item(item_shovel, (600, 500))
 
 window.mainloop()

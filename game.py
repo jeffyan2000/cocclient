@@ -13,14 +13,14 @@ class Game:
         window.after(50, self.update)
         self.gui = None
 
-    def showGuiBackpack(self):
-        if self.gui is None:
-            self.gui = BackpackGui()
-            self.gui.show()
-            self.gui.put_item(0, Item(2, "toolshovel"))
-            self.gui.put_item(1, Item(1, "toolpickaxe"))
+    def showBackpackGui(self):
+        sio.emit("requestOpenGui", "1")
 
-    def closeGuiBackpack(self):
+    def showGui(self, gui):
+        if self.gui is None:
+            self.gui = gui
+
+    def closeGui(self):
         if self.gui:
             self.gui.close()
             self.gui = None
@@ -81,9 +81,9 @@ class Game:
                     #open backpack
                     elif evt.char == 'b' and is_pressed:
                         if self.gui:
-                            self.closeGuiBackpack()
+                            self.closeGui()
                         else:
-                            self.showGuiBackpack()
+                            self.showBackpackGui()
 
                 elif evt.keycode == 13:
                     msg = chat.get("1.0", END)
