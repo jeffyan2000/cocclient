@@ -45,6 +45,7 @@ class Item:
         if self.image:
             self.pos[0] += dx
             self.pos[1] += dy
+            print(dx, dy)
             screen.move(self.image, dx, dy)
             if self.item_name_image:
                 screen.move(self.item_name_image, dx, dy)

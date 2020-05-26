@@ -55,14 +55,29 @@ def loadFrames(path, name, size, frames):
             cropped = image_lib[os.path.join(path, name + ".png")].crop((x * size[0], y * size[1], (x+1) * size[0], (y+1) * size[1]))
             animation_lib[name+"_frames"].append(ImageTk.PhotoImage(cropped))
 
-texture_lib = {}
+def loadBlockFrames(path, name, nick_name, size, frames):
+    block_lib[nick_name+"_frames"] = []
+    for y in range(frames[1]):
+        for x in range(frames[0]):
+            cropped = image_lib[os.path.join(path, name + ".png")].crop((x * size[0], y * size[1], (x+1) * size[0], (y+1) * size[1]))
+            block_lib[nick_name+"_frames"].append(ImageTk.PhotoImage(cropped))
+
+#texture for  characters
+character_lib = {}
+#texuure for animations
 animation_lib = {}
+#texture for room background
 background_lib = {}
+#texture for items
 item_lib = {}
+#texture for gui
 gui_lib = {}
+#texture for blocks
+block_lib = {}
 
 tools = os.listdir(os.path.join("lib", "items", "tools"))
 skins = os.listdir(os.path.join("lib", "characters"))
+blocks = os.listdir(os.path.join("lib", "blocks"))
 
 texture_names = []
 gui_names = ["backpack_bg", "slot"]
@@ -71,9 +86,15 @@ for character_texture in skins:
     texture_names.append(character_texture[:-4])
 for tool_texture in tools:
     item_lib["tool"+tool_texture[:-4]] = loadTools(tool_texture[:-4])
+for block_texture in blocks:
+    block_texture = block_texture[:-4]
+    temp = block_texture.split("@")
+    temp2 = temp[0].split("-")
+    load(os.path.join("lib", "blocks"), block_texture)
+    loadBlockFrames(os.path.join("lib", "blocks"), block_texture, temp[1], (int(temp2[0]), int(temp2[1])), (int(temp2[2]), int(temp2[3])))
 
 for name in texture_names:
-    texture_lib[name] = load(os.path.join("lib", "characters"), name)
+    character_lib[name] = load(os.path.join("lib", "characters"), name)
 for name in gui_names:
     gui_lib[name] = load(os.path.join("lib", "gui"), name)
 for name in background_names:

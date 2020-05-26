@@ -34,6 +34,13 @@ class Gui:
         self.pos[0] += dx
         self.pos[1] += dy
 
+class ChestGui(Gui):
+    def __init__(self):
+        Gui.__init__(self)
+        self.type = "chest"
+        self.pos[0] = 0
+        self.pos[1] = 0
+
 class BackpackGui(Gui):
     def __init__(self):
         Gui.__init__(self)
@@ -115,5 +122,8 @@ class BackpackGui(Gui):
         for slot in self.item_slot:
             if slot:
                 screen.delete(slot.image)
+                slot.image = None
+
         if self.grabbed_item:
             screen.delete(self.grabbed_item.image)
+            self.grabbed_item.image = None

@@ -1,5 +1,13 @@
 from player import *
 
+class TriggerBlock:
+    def __init__(self, x, y, texture):
+        self.image = None
+        self.pos = [x, y]
+        self.texture = texture
+
+
+
 class Room:
     def __init__(self):
         self.players = {}
